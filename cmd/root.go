@@ -7,11 +7,18 @@ import (
 )
 
 func RootCmd() *cobra.Command {
-	var port int
-	var origin string
-	var clearAll bool
+	var (
+		port     int
+		origin   string
+		clearAll bool
+	)
+
 	cmd := &cobra.Command{
-		Use: "caching-proxy --port <number> --origin <url>",
+		Use:   "caching-proxy --port <number> --origin <url>",
+		Short: "A caching proxy server",
+		Long: `A caching proxy server that forwards requests to an origin server 
+and caches responses for subsequent requests.`,
+		Example: "caching-proxy --port 8080 --origin https://api.example.com",
 		Args: cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			if clearAll {
@@ -22,7 +29,7 @@ func RootCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().IntVarP(&port, "port", "p", 8080, "Port to listen on")
-	cmd.Flags().StringVarP(&origin, "origin", "o", "", "Origin server URL") 
+	cmd.Flags().StringVarP(&origin, "origin", "o", "", "Origin server URL")
 	cmd.Flags().BoolVar(&clearAll, "clear-all", false, "Clear all cached data")
 	return cmd
 }
